@@ -1,0 +1,8 @@
+//
+// Created by ori on 12/18/18.
+//
+
+#ifndef PROJECT1_CONDITIONPARSER_H
+#define PROJECT1_CONDITIONPARSER_H
+
+#endif //PROJECT1_CONDITIONPARSER_H
