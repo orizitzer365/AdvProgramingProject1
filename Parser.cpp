@@ -4,6 +4,8 @@
 
 #include "Parser.h"
 
-void Parser::parse(list<string> strings) {
-
+void Parser::parse(vector<string> strings) {
+    while(strings.size()>0){
+        //erase the line i passed
+    }
 }

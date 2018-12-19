@@ -15,7 +15,8 @@ class Parser {
 private:
     map<string , Command> commands;
 public:
-    void parse(list<string> strings);
+    Parser(){}
+    void parse(vector<string> strings);
 };
 
 

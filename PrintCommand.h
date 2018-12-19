@@ -6,16 +6,13 @@
 #define PROJECT1_PRINTCOMMAND_H
 
 #include <map>
+#include <iostream>
 #include "Command.h"
 class printCommand : public Command{
-private:
-    map<string,double > vars;
 public:
-    printCommand(map<string,double >& v){
-        vars = v;
-    }
-    int doCommand(list<string> param) override {
-        printf("print");
+    int doCommand(vector<string> param) override {
+        cout<<param.at(1);
+        return 2;
     }
 };
 #endif //PROJECT1_PRINTCOMMAND_H

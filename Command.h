@@ -7,9 +7,11 @@
 
 #include <string>
 #include <list>
+#include <vector>
+#include <map>
 using namespace std;
 class Command{
 public:
-    virtual int doCommand(list<string > param) = 0;
+    virtual int doCommand(vector<string> param) = 0;
 };
 #endif //PROJECT1_COMMAND_H
