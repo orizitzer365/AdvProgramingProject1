@@ -13,7 +13,7 @@ class ConditionParser:public Command{
 private:
     list<Command> commands;
     map<string,Command> commmandsMap;
-    Expression condition;
+    Expression* condition;
 public:
     ConditionParser(map<string,Command> &co):commmandsMap(co) {
     }
@@ -24,14 +24,14 @@ public:
         while(param.at(i)!="{")
             i++;
         i++;
-        commands
+//        commands
     }
 
-    bool &getConditionStatus() const {
-        return (condition.caculate()==1)?1:0;
+    bool getConditionStatus() {
+        return (condition->calculate({ }) ==1) ? 1 : 0;
     }
 
-    const list<Command> &getCommands() const {
+    list<Command>& getCommands() {
         return commands;
     }
 };

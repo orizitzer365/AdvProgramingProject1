@@ -10,6 +10,6 @@ using namespace std;
 #include <list>
 class Expression{
 public:
-    virtual double caculate(list<string>)=0;
+    virtual double calculate(list<string>)=0;
 };
 #endif //PROJECT1_EXPRESSION_H
