@@ -6,6 +6,7 @@
 
 void Parser::parse(vector<string> strings) {
     while(strings.size()>0){
-        //erase the line i passed
+        int i = commands.at(strings.at(0))->doCommand(strings);
+        strings.erase(strings.begin(),strings.begin()+i);
     }
 }

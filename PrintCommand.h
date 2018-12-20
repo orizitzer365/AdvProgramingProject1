@@ -9,7 +9,11 @@
 #include <iostream>
 #include "Command.h"
 class printCommand : public Command{
+private:
+    map<string,double > vars;
 public:
+    printCommand(const map<string, double> &vars) : vars(vars) {}
+
     int doCommand(vector<string> param) override {
         cout<<param.at(1);
         return 2;

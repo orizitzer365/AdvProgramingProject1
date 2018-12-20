@@ -8,7 +8,7 @@
 #include "ConditionParser.h"
 class whileCommand:public ConditionParser{
 public:
-    whileCommand(map<string,Command> &co):ConditionParser(co){}
+    whileCommand(map<string,Command*> &co):ConditionParser(co){}
 
     int doCommand(vector<string> param){
         int x=0;

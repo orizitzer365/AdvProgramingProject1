@@ -7,7 +7,7 @@
 #include "ConditionParser.h"
 class ifCommand:public ConditionParser{
 public:
-    ifCommand(map<string,Command> &co):ConditionParser(co){}
+    ifCommand(map<string,Command*> &co):ConditionParser(co){}
 
     int doCommand(vector<string> param){
         int x=0;

@@ -12,10 +12,10 @@
 class ConditionParser:public Command{
 private:
     list<Command> commands;
-    map<string,Command> commmandsMap;
+    map<string,Command*> commmandsMap;
     Expression* condition;
 public:
-    ConditionParser(map<string,Command> &co):commmandsMap(co) {
+    ConditionParser(map<string,Command*> &co):commmandsMap(co) {
     }
 
     virtual int doCommand(vector<string> param)  {
