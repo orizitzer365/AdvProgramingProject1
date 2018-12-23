@@ -164,3 +164,7 @@ double Var::calculate() {
 double Var::func(double x, double y) {
     return this->val;
 }
+
+void Var::setValue(double value) {
+    this->val = value;
+}

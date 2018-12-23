@@ -7,15 +7,22 @@ using namespace std;
 #include <stack>
 #include <queue>
 #include "ExpressionFactory.h"
-class SymbolTable;////////////////////////////////////////////////////////
+#include "SymbolTable.h"
+enum DetailType {ACTION,VARIABLE,NUMBER,PARENTHESIS};
 
-enum DetailType {ACTION,VARIABLE};
 
 class Calculator {
+
     SymbolTable* variables;
     ExpressionFromNameFactory factory;
+    map<unsigned int,double> parenthesis;
+    int lastParenthesis;
+    map<string,int> precedence;
 
-     queue<pair<DetailType,string>>expressionLexerAndParser();
+     queue<pair<DetailType,string>>expressionLexerAndParser(string& input);
+     stack<pair<DetailType,string>>prefix(queue<pair<DetailType,string>>& input);
+     Expression* getExpression(stack<pair<DetailType,string>>& que);
+     pair<DetailType ,string> addParenthesis(string input);
 public:
     Calculator(SymbolTable* s);
     double calculate(string input);
