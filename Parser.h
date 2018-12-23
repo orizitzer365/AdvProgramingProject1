@@ -16,21 +16,27 @@ using namespace std;
 #include "PlacementCommand.h"
 #include "ifCommand.h"
 #include "whileCommand.h"
+#include "SleepCommand.h"
+#include "CommandExperssion.h"
 
 class Parser {
 private:
-    map<string , Command*> commands;
+    map<string , Expression*> commands;
     map<string,string > bindingMap;
 public:
-    Parser(map <string,double > vars){
-        commands.insert(make_pair("print",new printCommand(vars)));
-        commands.insert(make_pair("openDataServer",new openDataServerCommand(vars,bindingMap)));
-        commands.insert(make_pair("connect",new conectCommand(vars,bindingMap)));
-        //commands.insert(make_pair("print",new PlacementCommand(vars)));
-        commands.insert(make_pair("if",new ifCommand(commands)));
-        commands.insert(make_pair("while",new whileCommand(commands)));
+    Parser(SymbolTable &vars){
+        Calculator c(vars);
+        commands.insert(make_pair("print",new CommandExpression(new printCommand(vars))));
+        commands.insert(make_pair("openDataServer", new CommandExpression(
+                new openDataServerCommand(vars, c))));
+        commands.insert(make_pair("connect",new CommandExpression(new conectCommand(vars, bindingMap, c))));
+        commands.insert(make_pair("placement",new CommandExpression(
+                new PlacementCommand(vars, bindingMap, c))));
+        commands.insert(make_pair("if",new CommandExpression(new ifCommand(commands, c))));
+        commands.insert(make_pair("while",new CommandExpression(new whileCommand(commands, c))));
+        commands.insert(make_pair("sleep",new CommandExpression(new SleepCommand(vars))));
     }
-    void parse(vector<string> strings);
+    void parse(vector<vector<string > > strings);
 };
 
 

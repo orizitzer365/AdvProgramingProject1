@@ -17,14 +17,19 @@
 #include <thread>
 #include "Expression.h"
 #include "Command.h"
+#include "Var.h"
+#include "SymbolTable.h"
+void installVals(vector<string> &simVals);
+int read(int socketid, string& out, int bytes) ;
 class openDataServerCommand:public Command{
 private:
-    map<string,double > vars;
-    map<string,string > bindingMap;
+    SymbolTable vars;
+    vector<string> simValues;
+    Calculator calc;
 public:
-    openDataServerCommand(map<string, double> &v,    map<string,string >& bi){
-        vars =v;
-        bindingMap=bi;
+    openDataServerCommand(SymbolTable &v, Calculator &c):calc(c) {
+        vars = v;
+        installVals(simValues);
     }
 
     void serverOpen(int port ,int Hz){
@@ -72,40 +77,79 @@ public:
 
         /* If connection is established then start communicating */
        while (true){
-           for(const auto& binds : bindingMap){
-               buffer="set "+binds.second+to_string(vars.at(binds.first));
-               n = write(newsockfd,buffer.c_str(),strlen(buffer.c_str()));
+           buffer="";
+           n = read(newsockfd,buffer,400);
 
-               if (n < 0) {
-                   perror("ERROR reading from socket");
-                   exit(1);
-               }
-
-               /* Write a response to the client */
-
-               n = read(newsockfd,"I got your message",18);
-
-               if (n < 0) {
-                   perror("ERROR writing to socket");
-                   exit(1);
-               }
+           if (n < 0) {
+               perror("ERROR reading from socket");
+               exit(1);
            }
+           installValuesFromSim(buffer);
 
+
+
+           sleep(10000/Hz);
        }
     }
+    void installValuesFromSim(string line){
+        string name ="";
+        string val = "";
+        int i=0;
 
-    int doCommand(vector<string> param) override {
-        int port = stoi(param.at(1));
-        int Hz = stoi(param.at(2));
+        for (int j = 0; j < 23; ++j) {
+            name = simValues.at(j);
+            val = "";
+            while (line.at(i)!=','||line.at(i)!='\0')
+                val+=line.at(i);
+            i++;
+            if(!vars.exists(name)){
+                vars.add(name,stod(val));
+            } else
+                vars.at(name)->setValue(stod(val));
+        }
+    }
+
+    int doCommand(vector<vector<string>> strings) override {
+        vector<string> param = strings.at(0);
+        if(param.size()!=3)
+            throw "invalid parmameters";
+        int port = calc.calculate(param.at(1));
+        int Hz = calc.calculate(param.at(2));
         thread server(&openDataServerCommand::serverOpen,port,Hz);
         server.join();
-        return 3;
+        return 1;
     }
 
 };
+void installVals(vector<string> &simVals){
+    simVals.push_back("/instrumentation/airspeed-indicator/indicated-speed-kt");
+    simVals.push_back("/instrumentation/altimeter/indicated-altitude-ft");
+    simVals.push_back("/instrumentation/altimeter/pressure-alt-ft");
+    simVals.push_back("/instrumentation/attitude-indicator/indicated-pitch-deg");
+    simVals.push_back("/instrumentation/attitude-indicator/indicated-roll-deg");
+    simVals.push_back("/instrumentation/attitude-indicator/internal-pitch-deg");
+    simVals.push_back("/instrumentation/attitude-indicator/internal-roll-deg");
+    simVals.push_back("/instrumentation/encoder/indicated-altitude-ft");
+    simVals.push_back("/instrumentation/encoder/pressure-alt-ft");
+    simVals.push_back("/instrumentation/gps/indicated-altitude-ft");
+    simVals.push_back("/instrumentation/gps/indicated-ground-speed-kt");
+    simVals.push_back("/instrumentation/gps/indicated-vertical-speed");
+    simVals.push_back("/instrumentation/heading-indicator/indicated-heading-deg");
+    simVals.push_back("/instrumentation/magnetic-compass/indicated-heading-deg");
+    simVals.push_back("/instrumentation/slip-skid-ball/indicated-slip-skid");
+    simVals.push_back("/instrumentation/turn-indicator/indicated-turn-rate");
+    simVals.push_back("/instrumentation/vertical-speed-indicator/indicated-speed-fpm");
+    simVals.push_back("/controls/flight/aileron");
+    simVals.push_back("/controls/flight/elevator");
+    simVals.push_back("/controls/flight/rudder");
+    simVals.push_back("/controls/flight/flaps");
+    simVals.push_back("/controls/engines/engine/throttle");
+    simVals.push_back("/engines/engine/rpm");
+}
 
 int read(int socketid, string& out, int bytes) {
     out.resize(bytes);
     read(socketid, &out[0], bytes);
 }
+
 #endif //PROJECT1_OPENDATASERVERCOMMAND_H

@@ -7,29 +7,33 @@
 #include <map>
 #include "Expression.h"
 #include "Command.h"
+#include "PlacementCommand.h"
+#include "SymbolTable.h"
+
 class defineVarCommand:public Command{
 private:
-    map<string,double > vars;
+    SymbolTable vars;
     map<string,string > bindingMap;
+    Calculator calc;
 public:
-    defineVarCommand(map<string, double> &v,map<string,string > &b){
+    defineVarCommand(SymbolTable &v, map<string, string> &b, Calculator &c):calc(c) {
         vars =v;
         bindingMap=b;
+        calc=c;
     }
 
-    int doCommand(vector<string> param) override {
+    int doCommand(vector<vector<string>> strings) override {
+        vector<string> param = strings.at(0);
         string varName = param.at(1);
+        vars.add(varName,0);
         if(param.at(2)!="=")
-            return 3;
-        if(param.at(3) != "bind"){
-            //=
-            vars.insert(make_pair(varName,new Expression(param.at(3))));
-            return 4;
-        }
-        bindingMap.insert(make_pair(varName,param.at(3)));
-        if(param.at(3)[0]!='"')
-            vars.insert(make_pair(varName,vars.find(param.at(3))->second));
-        return 4;
+            return 1;
+        PlacementCommand placementCommand(vars, bindingMap, calc);
+        vector<vector<string>> clone = strings;
+        clone.at(0).erase(clone.at(0).begin());
+        placementCommand.doCommand(clone);
+        return 1;
+
     }
 };
 

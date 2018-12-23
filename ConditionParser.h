@@ -11,27 +11,42 @@
 
 class ConditionParser:public Command{
 private:
-    list<Command> commands;
-    map<string,Command*> commmandsMap;
-    Expression* condition;
+    vector<Expression*> commands;
+    map<string,Expression* > commandsMap;
+    string condition;
+    Calculator calc;
 public:
-    ConditionParser(map<string,Command*> &co):commmandsMap(co) {
+    ConditionParser(map<string, Expression *> &co, Calculator &c) : commandsMap(co),calc(c) {
     }
 
-    virtual int doCommand(vector<string> param)  {
-        condition = new booleanExpression(param);
-        int i=1;
-        while(param.at(i)!="{")
-            i++;
-        i++;
+    virtual int doCommand(vector<vector<string>> param)  {
+        vector<vector<string>> clone = param;
+        clone.at(0).erase(clone.at(0).begin());
+        condition = (param.at(0).at(1));
+        clone.erase(clone.begin());
+        getCommandsByMap(clone);
+        return 1;
 //        commands
     }
 
     bool getConditionStatus() {
-        return (condition->calculate({ }) ==1) ? 1 : 0;
+        return (calc.calculate(condition) ==1) ? 1 : 0;
     }
 
-    list<Command>& getCommands() {
+    void getCommandsByMap(vector<vector<string > > lines) {
+        int i = 0;
+        ///change to while '}'
+        for (auto& line : lines) {
+            if(line.at(0)=="}")
+                break;
+            if(commandsMap.find(line.at(0)) == commandsMap.end())
+                commands.at(i) = commandsMap.at("placement");
+            else
+                commands.at(i) = commandsMap.at(line.at(0));
+        }
+    }
+
+    vector<Expression *> &getCommands() {
         return commands;
     }
 };

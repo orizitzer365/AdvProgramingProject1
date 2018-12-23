@@ -6,12 +6,13 @@
 #define PROJECT1_LEXER_H
 #include <string>
 #include <list>
+#include <vector>
 
 using namespace std;
 
 class Lexer {
 public:
-    list<string> lexer(string fileName);
+    vector <string> lexer(string fileName);
 };
 
 

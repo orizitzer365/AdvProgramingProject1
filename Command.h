@@ -9,9 +9,11 @@
 #include <list>
 #include <vector>
 #include <map>
+#include "SymbolTable.h"
+#include "Calculator.h"
 using namespace std;
 class Command{
 public:
-    virtual int doCommand(vector<string> param) = 0;
+    virtual int doCommand(vector<vector<string>> param) = 0;
 };
 #endif //PROJECT1_COMMAND_H

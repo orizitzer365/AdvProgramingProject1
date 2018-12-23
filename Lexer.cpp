@@ -6,7 +6,7 @@
 #include <fstream>
 #include "Lexer.h"
 
-list<string> Lexer::lexer(string fileName) {
+vector<string> Lexer::lexer(string fileName) {
     list<string> list;
     ifstream stream(fileName);
     string temp = "";

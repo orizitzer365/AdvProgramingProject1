@@ -8,15 +8,17 @@
 #include "ConditionParser.h"
 class whileCommand:public ConditionParser{
 public:
-    whileCommand(map<string,Command*> &co):ConditionParser(co){}
+    whileCommand(map<string, Expression *> &co,Calculator &c) : ConditionParser(co, c) {}
 
-    int doCommand(vector<string> param){
+    int doCommand(vector<vector<string>> param){
         int x=0;
-
-        while(getConditionStatus()){
+        while (ConditionParser::getConditionStatus()){
             x=0;
-            for(auto& i : getCommands())
-                x+= i.doCommand(param);
+            vector<vector<string>> clone = param;
+            for(auto& i :ConditionParser::getCommands()){
+                x+=i->calculate(clone);
+                clone.erase(clone.begin());
+            }
         }
         return x;
     }

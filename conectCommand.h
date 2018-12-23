@@ -18,21 +18,28 @@
 #include <thread>
 #include "Expression.h"
 #include "Command.h"
+#include "SymbolTable.h"
+
 class conectCommand:public Command{
 private:
-    map<string,double > vars;
+    SymbolTable vars;
     map<string,string > bindingMap;
+    Calculator calc;
 public:
-    conectCommand(map<string, double> &v,    map<string,string > bi){
-        vars =v;
+    conectCommand(SymbolTable &v, map<string, string> bi, Calculator &c) {
+        vars = v;
         bindingMap=bi;
+        calc=c;
     }
 
-    int doCommand(vector<string> param) override {
-        int port = stoi(param.at(1));
+    int doCommand(vector<vector<string>> strings) override {
+        vector<string> param = strings.at(0);
+        if(param.size()!=3)
+            throw "invalid parmam";
+        int port = calc.calculate(param.at(1));
         thread server(&conectCommand::serverConnct,port,param.at(2));
         server.join();
-        return 2;
+        return 1;
     }
 
     void serverConnct(int port ,string ip){
@@ -75,24 +82,16 @@ public:
 
         /* Send message to the server */
         while(true){
+
             for(const auto& binds : bindingMap){
-                buffer="set "+binds.second+to_string(vars.at(binds.first));
-                n = write(sockfd,buffer, strlen(buffer));
+                buffer="";
+                buffer="set "+binds.second +to_string((vars.at(binds.second))->calculate({})) + "\r\n";
+                n = write(sockfd,buffer.c_str(), buffer.length());
 
                 if (n < 0) {
                     perror("ERROR writing to socket");
                     exit(1);
                 }
-
-                /* Now read server response */
-                buffer="";
-                n = read(sockfd, buffer.c_str(), 255,1);
-
-                if (n < 0) {
-                    perror("ERROR reading from socket");
-                    exit(1);
-                }
-                vars.at(binds.first)=stod(buffer);
             }
 
         }

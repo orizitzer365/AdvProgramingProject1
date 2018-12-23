@@ -7,14 +7,16 @@
 #include "ConditionParser.h"
 class ifCommand:public ConditionParser{
 public:
-    ifCommand(map<string,Command*> &co):ConditionParser(co){}
+    ifCommand(map<string, Expression *> &co, Calculator &c) : ConditionParser(co, c) {}
 
-    int doCommand(vector<string> param){
+    int doCommand(vector<vector<string>> param){
+        vector<vector<string>> clone = param;
         int x=0;
         if(ConditionParser::getConditionStatus()){
-            x=0;
-            for(const auto& i :ConditionParser::getCommands())
-                x+=i.doCommand();
+            for(auto& i :ConditionParser::getCommands()){
+                x+=i->calculate(clone);
+                clone.erase(clone.begin());
+            }
         }
         return x;
     }

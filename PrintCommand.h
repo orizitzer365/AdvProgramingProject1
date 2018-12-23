@@ -8,15 +8,23 @@
 #include <map>
 #include <iostream>
 #include "Command.h"
+#include "Var.h"
+
 class printCommand : public Command{
 private:
-    map<string,double > vars;
+    SymbolTable vars;
 public:
-    printCommand(const map<string, double> &vars) : vars(vars) {}
+    printCommand(SymbolTable &vars) : vars(vars) {}
 
-    int doCommand(vector<string> param) override {
-        cout<<param.at(1);
-        return 2;
+    int doCommand(vector<vector<string>> strings) override {
+        vector<string> param = strings.at(0);
+        if(param.size()!= 2)
+            throw "invalid parmameters";
+        if(param.at(1)[0]=='"')
+            cout<<param.at(1).substr(1,param.at(1).size()-1);
+        else
+            cout<<vars.at(param.at(1))->calculate({});
+        return 1;
     }
 };
 #endif //PROJECT1_PRINTCOMMAND_H
