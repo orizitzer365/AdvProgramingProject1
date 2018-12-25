@@ -5,6 +5,9 @@
 #ifndef PROJECT1_EXPRESSION_H
 #define PROJECT1_EXPRESSION_H
 
+#include <vector>
+#include <string>
+using namespace std;
 
 class Expression {
 protected:
@@ -13,6 +16,7 @@ protected:
 public:
     Expression(Expression* e1,Expression* e2);
     virtual double calculate();
+    double calculate(vector<vector<string>> notUsed);
     virtual double func(double x, double y) = 0;
     ~Expression();
 };

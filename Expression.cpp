@@ -168,3 +168,7 @@ double Var::func(double x, double y) {
 void Var::setValue(double value) {
     this->val = value;
 }
+
+double Expression::calculate(vector<vector<string>> notUsed) {
+    return this->calculate();
+}
