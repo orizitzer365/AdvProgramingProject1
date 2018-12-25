@@ -16,7 +16,7 @@ protected:
 public:
     Expression(Expression* e1,Expression* e2);
     virtual double calculate();
-    double calculate(vector<vector<string>> notUsed);
+    virtual double calculate(vector<vector<string>> notUsed);
     virtual double func(double x, double y) = 0;
     ~Expression();
 };
