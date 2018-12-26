@@ -7,18 +7,26 @@
 #include <sstream>
 #include <queue>
 
+#define END_OF_LINE "#@$%#@EndOfLine"
+#define SET_OPERATORS {"openDataServer","connect","while","print","placement","if","sleep"}
+
 vector<vector<string>> Lexer::lexer(string fileName) {
     ifstream in(fileName);
+    //no commands:
     if(!in.is_open()){
         return vector<vector<string>>();
     }
+    //names of the commands:
     set<string> names = this->makeSet();
     string line;
     string tmp;
     string word;
     string last_word;
+    //vector of lines:
     vector<vector<string>> output;
+    //reads from the file line by line:
     while (!getline(in,line).eof()){
+        //vector of the line:
         vector<string> vecLine;
         //empty line:
         if(line.empty()){
@@ -26,10 +34,10 @@ vector<vector<string>> Lexer::lexer(string fileName) {
             continue;
         }
         //splits the line into queue:
-        istringstream ss(line + " #@$%#@");
+        istringstream ss(line + " "+END_OF_LINE);
         queue<string> que;
         ss >> tmp;
-        while(tmp.compare("#@$%#@") != 0){
+        while(tmp.compare(END_OF_LINE) != 0){
             que.push(tmp);
             ss >> tmp;
         }
@@ -104,7 +112,7 @@ vector<vector<string>> Lexer::lexer(string fileName) {
 }
 
 set<string> Lexer::makeSet() {
-    return {"openDataServer","connect","while","print","placement","if","sleep"};
+    return SET_OPERATORS;
 }
 
 bool Lexer::add(string &last, string &word) {

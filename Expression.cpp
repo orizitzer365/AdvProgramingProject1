@@ -4,6 +4,12 @@
 
 #include "Expression.h"
 
+/*
+ *
+ * data about the functions at the header file.
+ *
+ */
+
 Expression::Expression(Expression *e1, Expression *e2) {
     this->e1 = e1;
     this->e2 = e2;
@@ -169,6 +175,6 @@ void Var::setValue(double value) {
     this->val = value;
 }
 
-double Expression::calculate(vector<vector<string>> notUsed) {
+double Expression::calculate(vector<vector<string>>& notUsed) {
     return this->calculate();
 }

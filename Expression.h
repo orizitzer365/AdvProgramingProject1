@@ -1,5 +1,5 @@
 //
-// Created by nadav on 12/23/18.
+// Created by Nadav Panski.
 //
 
 #ifndef PROJECT1_EXPRESSION_H
@@ -9,18 +9,48 @@
 #include <string>
 using namespace std;
 
+/**
+ * class of expression.
+ */
 class Expression {
 protected:
     Expression* e1;
     Expression* e2;
 public:
+    /**
+     * constructor.
+     * input: e1 ,e2 expressions.
+     */
     Expression(Expression* e1,Expression* e2);
+    /**
+     * returns the value of the expression.
+     */
     virtual double calculate();
-    virtual double calculate(vector<vector<string>> notUsed);
+    /**
+     * returns the value of the expression.
+     */
+    virtual double calculate(vector<vector<string>>& notUsed);
+    /**
+     * Doing action between two numbers.
+     */
     virtual double func(double x, double y) = 0;
+    /**
+     * distructor.
+     */
     ~Expression();
 };
 
+/*
+ *
+ *
+ * All the classes down | are types of expression with the same functions:
+ *                      |
+ *                      |
+ *                      |
+ *                     \|/
+ *                      |
+ *
+ */
 class Plus : public  Expression{
 public:
     Plus(Expression* e1,Expression* e2);
