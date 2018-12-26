@@ -152,7 +152,7 @@ bool Lexer::add(string &last, string &word) {
     //removing ',':
     if(word.at(0) == ','){
         string newWord;
-        for (int i =1;i<word.size();i++){
+        for (unsigned int i =1;i<word.size();i++){
             newWord += word.at(i);
         }
         word = newWord;

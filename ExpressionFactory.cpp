@@ -2,8 +2,6 @@
 
 #define INVALID_OPTION " is invalid action"
 
-ExpressionFactory::~ExpressionFactory() {}
-
 ExpressionFromNameFactory::ExpressionFromNameFactory() {
     this->factors.insert(pair<string,ExpressionFactory*>("+",new PlusFactory()));
     this->factors.insert(pair<string,ExpressionFactory*>("-",new MinusFactory()));

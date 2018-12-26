@@ -18,7 +18,7 @@ public:
     /**
      * distructor.
      */
-    virtual ~ExpressionFactory();
+    virtual ~ExpressionFactory(){}
 };
 
 /**
