@@ -34,7 +34,8 @@ public:
      * Doing action between two numbers.
      */
     virtual double func(double x, double y) = 0;
-    /**
+
+    virtual /**
      * distructor.
      */
     ~Expression();
@@ -53,6 +54,7 @@ public:
  */
 class Plus : public  Expression{
 public:
+    ~Plus();
     Plus(Expression* e1,Expression* e2);
     double calculate();
     double func(double x, double y);
@@ -60,6 +62,7 @@ public:
 
 class Minus : public  Expression{
 public:
+    ~Minus();
     Minus(Expression* e1,Expression* e2);
     double calculate();
     double func(double x, double y);
@@ -67,6 +70,7 @@ public:
 
 class Mult : public  Expression{
 public:
+    ~Mult();
     Mult(Expression* e1,Expression* e2);
     double calculate();
     double func(double x, double y);
@@ -74,6 +78,7 @@ public:
 
 class Div : public  Expression{
 public:
+    ~Div();
     Div(Expression* e1,Expression* e2);
     double calculate();
     double func(double x, double y);
@@ -81,6 +86,7 @@ public:
 
 class IsEqual : public  Expression{
 public:
+    ~IsEqual();
     IsEqual(Expression* e1,Expression* e2);
     double calculate();
     double func(double x, double y);
@@ -88,6 +94,7 @@ public:
 
 class IsNotEqual : public  Expression{
 public:
+    ~IsNotEqual();
     IsNotEqual(Expression* e1,Expression* e2);
     double calculate();
     double func(double x, double y);
@@ -95,6 +102,7 @@ public:
 
 class IsSmaller : public  Expression{
 public:
+    ~IsSmaller();
     IsSmaller(Expression* e1,Expression* e2);
     double calculate();
     double func(double x, double y);
@@ -102,6 +110,7 @@ public:
 
 class IsBigger : public  Expression{
 public:
+    ~IsBigger();
     IsBigger(Expression* e1,Expression* e2);
     double calculate();
     double func(double x, double y);
@@ -109,6 +118,7 @@ public:
 
 class IsBiggerOrEqual : public  Expression{
 public:
+    ~IsBiggerOrEqual();
     IsBiggerOrEqual(Expression* e1,Expression* e2);
     double calculate();
     double func(double x, double y);
@@ -116,6 +126,7 @@ public:
 
 class IsSmallerOrEqual : public  Expression{
 public:
+    ~IsSmallerOrEqual();
     IsSmallerOrEqual(Expression* e1,Expression* e2);
     double calculate();
     double func(double x, double y);
@@ -123,6 +134,7 @@ public:
 
 class Or : public  Expression{
 public:
+    ~Or();
     Or(Expression* e1,Expression* e2);
     double calculate();
     double func(double x, double y);
@@ -130,6 +142,7 @@ public:
 
 class And : public  Expression{
 public:
+    ~And();
     And(Expression* e1,Expression* e2);
     double calculate();
     double func(double x, double y);
@@ -138,6 +151,7 @@ public:
 class Var : public Expression{
     double val;
 public:
+    ~Var();
     Var(Expression* value,Expression* not_used);
     Var(double value);
     void setValue(double value);

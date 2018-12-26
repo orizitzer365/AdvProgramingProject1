@@ -59,6 +59,32 @@ double Mult::func(double x, double y) {
     return x * y;
 }
 
+Mult::~Mult() {}
+
+Plus::~Plus() {}
+
+Minus::~Minus() {}
+
+Div::~Div() {}
+
+IsEqual::~IsEqual() {}
+
+IsNotEqual::~IsNotEqual() {}
+
+IsSmaller::~IsSmaller() {}
+
+IsBigger::~IsBigger() {}
+
+IsBiggerOrEqual::~IsBiggerOrEqual() {}
+
+IsSmallerOrEqual::~IsSmallerOrEqual() {}
+
+Or::~Or() {}
+
+And::~And() {}
+
+Var::~Var() {}
+
 Div::Div(Expression *e1, Expression *e2) : Expression(e1, e2) {}
 
 double Div::calculate() {
