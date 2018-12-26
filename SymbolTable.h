@@ -49,5 +49,8 @@ public:
     int size(){
         return vars.size();
     };
+    ~SymbolTable(){
+        vars.clear();
+    }
 };
 #endif //PROJECT1_SYMBOLTABLE_H
