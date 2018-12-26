@@ -12,7 +12,7 @@ using namespace std;
 
 #include "PrintCommand.h"
 #include "openDataServerCommand.h"
-#include "conectCommand.h"
+#include "connectCommand.h"
 #include "PlacementCommand.h"
 #include "ifCommand.h"
 #include "whileCommand.h"
@@ -21,22 +21,14 @@ using namespace std;
 
 class Parser {
 private:
-    map<string , Expression*> commands;
-    map<string,string > bindingMap;
+    map<string , Expression*>* commands;
+    map<string,string >* bindingMap;
+    bool* stillRunning;
 public:
-    Parser(SymbolTable &vars){
-        Calculator c(vars);
-        commands.insert(make_pair("print",new CommandExpression(new printCommand(vars))));
-        commands.insert(make_pair("openDataServer", new CommandExpression(
-                new openDataServerCommand(vars, c))));
-        commands.insert(make_pair("connect",new CommandExpression(new conectCommand(vars, bindingMap, c))));
-        commands.insert(make_pair("placement",new CommandExpression(
-                new PlacementCommand(vars, bindingMap, c))));
-        commands.insert(make_pair("if",new CommandExpression(new ifCommand(commands, c))));
-        commands.insert(make_pair("while",new CommandExpression(new whileCommand(commands, c))));
-        commands.insert(make_pair("sleep",new CommandExpression(new SleepCommand(vars))));
-    }
+    Parser(SymbolTable* &vars);
     void parse(vector<vector<string > > strings);
+
+    virtual ~Parser();
 };
 
 

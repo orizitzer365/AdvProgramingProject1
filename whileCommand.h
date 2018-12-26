@@ -8,19 +8,28 @@
 #include "ConditionParser.h"
 class whileCommand:public ConditionParser{
 public:
-    whileCommand(map<string, Expression *> &co,Calculator &c) : ConditionParser(co, c) {}
+    whileCommand(map<string, Expression *>* &co, SymbolTable* & v) : ConditionParser(co, v) {}
 
     int doCommand(vector<vector<string>> param){
         int x=0;
+        int r=0;
+        //install the commands and the condition
+        ConditionParser::doCommand(param);
+        //do it while the condtion is true
         while (ConditionParser::getConditionStatus()){
             x=0;
+            r=0;
+            //clone the lines
             vector<vector<string>> clone = param;
+            clone.erase(clone.begin());
             for(auto& i :ConditionParser::getCommands()){
-                x+=i->calculate(clone);
-                clone.erase(clone.begin());
+                //execute the command
+                x= i->calculate(clone);
+                r+=x;
+                clone.erase(clone.begin(),clone.begin()+x);
             }
         }
-        return x;
+        return r;
     }
 };
 #endif //PROJECT1_WHILECOMMAND_H

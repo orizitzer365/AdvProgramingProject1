@@ -7,28 +7,27 @@
 
 #include "Command.h"
 #include "Expression.h"
-#include "Var.h"
 
 class PlacementCommand:public Command{
 private:
-    map<string,string > bindingMap;
-    SymbolTable vars;
-    Calculator calc;
+    SymbolTable* vars;
+    Calculator* calc;
 public:
-    PlacementCommand(SymbolTable &v, map<string, string> &b, Calculator &c) : vars(v) , bindingMap(b)
-    ,calc(c){}
+    PlacementCommand(SymbolTable* &v) : vars(v) {
+        calc = new Calculator(vars);
+    }
 
     int doCommand(vector<vector<string>> strings) override {
         vector<string> param = strings.at(0);
         string varName = param.at(0);
-        if(param.at(2) != "bind"){
-            //=
-            vars.add(make_pair(varName,calc.calculate(param.at(2)));
-            return 1;
-        }
-        bindingMap.insert(make_pair(varName,param.at(3)));
-        vars.bind(varName,param.at(3));
+        if(param.at(1)!="=")
+            throw "ERROR";
+        //change the value
+        vars->at(varName)->setValue(calc->calculate(param.at(2)));
         return 1;
+    }
+    ~PlacementCommand(){
+
     }
 };
 #endif //PROJECT1_PLACEMENTCOMMAND_H

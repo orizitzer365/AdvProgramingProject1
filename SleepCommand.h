@@ -7,19 +7,19 @@
 
 #include <unistd.h>
 #include "Command.h"
-#include "Var.h"
 
 class  SleepCommand : public Command{
 private:
-   SymbolTable vars;
+   SymbolTable* vars;
 public:
-    SleepCommand(SymbolTable &vars) : vars(vars) {}
+    SleepCommand(SymbolTable* &vars) : vars(vars) {}
 
     int doCommand(vector< vector< string > > strings) override {
-        if(strings.at(0).size()!=3)
+        if(strings.at(0).size()!=2)
             throw "invalid parmameters";
         vector<string> param = strings.at(0);
-        sleep(stod(param.at(0)));
+        //sleep for the number of miliseconds from the input
+        sleep(stoi(param.at(1))/1000);
         return 1;
     }
 };

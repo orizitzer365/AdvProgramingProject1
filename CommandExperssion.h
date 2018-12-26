@@ -12,10 +12,17 @@ class CommandExpression : public Expression{
 private:
     Command* command;
 public:
-    CommandExpression(Command *command) : command(command) {}
+    CommandExpression(Expression* x,Expression* y):Expression(x,y){
+        command= nullptr;
+    }
+    CommandExpression(Command *command) : Expression(nullptr, nullptr) ,command(command) {}
 
-    double calculate(vector<vector<string>> strings)  {
+    double calculate(vector<vector<string>> strings) {
         return command->doCommand(strings);
+    }
+
+    double func(double x, double y) override {
+        return 0;
     }
 };
 #endif //PROJECT1_COMMANDEXPERSSION_H

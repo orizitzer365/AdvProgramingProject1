@@ -7,18 +7,25 @@
 #include "ConditionParser.h"
 class ifCommand:public ConditionParser{
 public:
-    ifCommand(map<string, Expression *> &co, Calculator &c) : ConditionParser(co, c) {}
+    ifCommand(map<string, Expression *>* &co,SymbolTable * & s) : ConditionParser(co, s) {}
 
     int doCommand(vector<vector<string>> param){
-        vector<vector<string>> clone = param;
         int x=0;
-        if(ConditionParser::getConditionStatus()){
+        int r=0;
+        //install the condition and the commands
+        ConditionParser::doCommand(param);
+        if (ConditionParser::getConditionStatus()){
+            r=0;
+            vector<vector<string>> clone = param;
+            clone.erase(clone.begin());
+            //execute the commands
             for(auto& i :ConditionParser::getCommands()){
-                x+=i->calculate(clone);
-                clone.erase(clone.begin());
+                x= i->calculate(clone);
+                r+=x;
+                clone.erase(clone.begin(),clone.begin()+x);
             }
         }
-        return x;
+        return r;
     }
 };
 #endif //PROJECT1_IFCOMMAND_H
