@@ -38,7 +38,7 @@ public:
     /**
      * distructor.
      */
-    ~Expression();
+    virtual ~Expression();
 };
 
 /*
