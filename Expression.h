@@ -35,7 +35,7 @@ public:
      */
     virtual double func(double x, double y) = 0;
 
-    virtual /**
+    /**
      * distructor.
      */
     ~Expression();
