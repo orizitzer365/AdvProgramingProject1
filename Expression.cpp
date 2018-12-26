@@ -4,6 +4,8 @@
 
 #include "Expression.h"
 
+#define INVALID_EXP "Invalid expression!"
+
 /*
  *
  * data about the functions at the header file.
@@ -17,7 +19,7 @@ Expression::Expression(Expression *e1, Expression *e2) {
 
 double Expression::calculate() {
     if((this->e1 == nullptr)||(this->e2 == nullptr) ){
-        throw "Invalid expression!";
+        throw INVALID_EXP;
     }
     return this->func(this->e1->calculate(),this->e2->calculate());
 }

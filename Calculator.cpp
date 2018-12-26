@@ -1,5 +1,9 @@
 #include "Calculator.h"
 
+#define WHAT "What????"
+#define INVALID "Invalid expression"
+#define INVALID_EQUAL "Invalid token '=' "
+
 /*
  *
  * all the functions data is in the header file.
@@ -88,7 +92,7 @@ queue<pair<DetailType, string>> Calculator::expressionLexerAndParser(string &inp
                     continue;
                 }
                 if(c == '='){
-                    throw "Invalid token '=' ";
+                    throw INVALID_EQUAL;
                 }
                 string temp = string()+c;
                 //adds the action to the output:
@@ -116,7 +120,7 @@ queue<pair<DetailType, string>> Calculator::expressionLexerAndParser(string &inp
                     ++i;
                 }
                 if(i == len){
-                    throw "Invalid expression";
+                    throw INVALID;
                 }
                 //adds the expression to the output:
                 output.push(this->addParenthesis(temp));
@@ -143,7 +147,7 @@ queue<pair<DetailType, string>> Calculator::expressionLexerAndParser(string &inp
     } catch (char const * s){
         throw s;
     } catch (...) {
-        throw "Invalid expression";
+        throw INVALID;
     }
     return output;
 }
@@ -196,7 +200,7 @@ Expression *Calculator::getExpression(stack<pair<DetailType, string>> &stk) {
         }
         //won't happened:
         default:{
-            throw "What????";
+            throw WHAT;
         }
     }
 }
