@@ -15,6 +15,10 @@ public:
      * creates expression from two expression.
      */
     virtual Expression* create(Expression* e1,Expression* e2) = 0;
+    /**
+     * distructor.
+     */
+    virtual ~ExpressionFactory();
 };
 
 /**
