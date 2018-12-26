@@ -14,8 +14,8 @@ int main(int argc , char * argv[]) {
         parser.parse(lines);
     }catch (exception& e){
         cout<<e.what()<<endl;
-    }catch (char* c){
-        cout<<*c<<endl;
+    }catch (char const* c){
+        cout<<c<<endl;
     }
 
     return 0;
