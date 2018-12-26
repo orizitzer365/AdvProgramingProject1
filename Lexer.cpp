@@ -2,7 +2,7 @@
 // Created by nadav on 12/24/18.
 //
 
-#include "Lexser.h"
+#include "Lexer.h"
 #include <fstream>
 #include <sstream>
 #include <queue>
