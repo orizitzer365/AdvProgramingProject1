@@ -50,7 +50,9 @@ public:
         return vars.size();
     };
     ~SymbolTable(){
-        vars.clear();
+        for(auto p : this->vars){
+            delete p.second;
+        }
     }
 };
 #endif //PROJECT1_SYMBOLTABLE_H
