@@ -14,6 +14,7 @@
 #include <string.h>
 
 #include <sys/socket.h>
+#include <mutex>
 #include <map>
 #include <thread>
 #include "Expression.h"
