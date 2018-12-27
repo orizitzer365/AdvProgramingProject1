@@ -24,8 +24,6 @@ public:
     double func(double x, double y) override {
         return 0;
     }
-    ~CommandExpression(){
-        delete command;
-    }
+    virtual ~CommandExpression();
 };
 #endif //PROJECT1_COMMANDEXPERSSION_H
