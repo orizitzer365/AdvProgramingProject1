@@ -29,7 +29,10 @@ public:
                 clone.erase(clone.begin(),clone.begin()+x);
             }
         }
-        return r;
+        //one for while and one for "}"
+        return r+2;
     }
+
+    ~whileCommand() {}
 };
 #endif //PROJECT1_WHILECOMMAND_H

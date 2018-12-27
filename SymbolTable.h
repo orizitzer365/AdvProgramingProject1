@@ -27,15 +27,23 @@ public:
     void bind(string newArg , string binding){
         add(newArg,0);
         if(binding[0]=='"'){
-            if(exists(binding.substr(1,binding.size()-2)))
-                vars.at(newArg) = vars.at(binding.substr(1,binding.size()-2));
+            if(exists(binding.substr(1,binding.size()-2))) {
+                Var* temp = vars.at(newArg);
+                //delete(vars.at(newArg));
+                vars.at(newArg) = vars.at(binding.substr(1, binding.size() - 2));
+                delete temp;
+            }
             else{
                 bind(binding.substr(1,binding.size()-2),newArg);
                 return;
             }
         }
-        else
+        else{
+            Var* temp = vars.at(newArg);
+            //delete(vars.at(newArg));
             vars.at(newArg)=ref(vars.at(binding));
+            delete(temp);
+        }
 
     }
     //get the var with the name
@@ -49,5 +57,13 @@ public:
     int size(){
         return vars.size();
     };
+    ~SymbolTable(){
+        for(auto it:vars){
+            try {
+                delete it.second;
+            }catch (exception &e){}
+        }
+        vars.clear();
+    }
 };
 #endif //PROJECT1_SYMBOLTABLE_H
