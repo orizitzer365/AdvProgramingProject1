@@ -23,7 +23,6 @@ class Parser {
 private:
     map<string , Expression*>* commands;
     map<string,string >* bindingMap;
-    bool* stillRunning;
 public:
     Parser(SymbolTable* &vars);
     void parse(vector<vector<string > > strings);

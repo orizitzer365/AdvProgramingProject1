@@ -22,10 +22,9 @@ private:
     vector<string> simValues;
     Calculator* calc;
     bool acceptServer = false;
-    bool * &stillRun;
     int socket_id;
 public:
-    openDataServerCommand(SymbolTable* &v, bool* & run);
+    openDataServerCommand(SymbolTable* &v);
 
     void serverOpen(int port ,int Hz);
     string installValuesFromSim(string line);

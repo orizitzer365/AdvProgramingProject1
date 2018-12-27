@@ -4,7 +4,7 @@
 
 #include "openDataServerCommand.h"
 
-openDataServerCommand::openDataServerCommand(SymbolTable *&v, bool *&run) :stillRun(run) {
+openDataServerCommand::openDataServerCommand(SymbolTable *&v)  {
     vars = v;
     installfirstVals(simValues);
     calc=new Calculator(vars);
@@ -141,4 +141,5 @@ void openDataServerCommand::installfirstVals(vector<string> &simVals) {
 
 openDataServerCommand::~openDataServerCommand() {
     close(socket_id);
+    delete calc;
 }

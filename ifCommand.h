@@ -27,5 +27,8 @@ public:
         }
         return r;
     }
+
+    ~ifCommand() {}
+
 };
 #endif //PROJECT1_IFCOMMAND_H

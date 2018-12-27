@@ -12,10 +12,11 @@ int main(int argc , char * argv[]) {
         vector<vector<string>> lines=lex.lexer(argv[1]);
         Parser parser(vars);
         parser.parse(lines);
+        delete vars;
     }catch (exception& e){
         cout<<e.what()<<endl;
-    }catch (char* c){
-        cout<<*c<<endl;
+    }catch (char const* c){
+        cout<<c<<endl;
     }
 
     return 0;

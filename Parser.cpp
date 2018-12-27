@@ -19,19 +19,16 @@ void Parser::parse(vector<vector<string > > strings) {
         //earase the line from the lines
         strings.erase(strings.begin(),strings.begin()+i);
     }
-    *stillRunning== false;
 }
 
 Parser::Parser(SymbolTable* &vars) {
     //install the commands map
-    bool t = true;
-    stillRunning = &t;
     commands = new map<string,Expression* >();
     bindingMap = new map<string,string >();
     commands->insert(make_pair("print",new CommandExpression(new printCommand(vars))));
     commands->insert(make_pair("openDataServer", new CommandExpression(
-            new openDataServerCommand(vars, stillRunning))));
-    commands->insert(make_pair("connect",new CommandExpression(new connectCommand(vars, bindingMap, stillRunning))));
+            new openDataServerCommand(vars))));
+    commands->insert(make_pair("connect",new CommandExpression(new connectCommand(vars, bindingMap))));
     commands->insert(make_pair("placement",new CommandExpression(
             new PlacementCommand(vars))));
     commands->insert(make_pair("var",new CommandExpression(new defineVarCommand(vars,bindingMap))));
@@ -42,6 +39,8 @@ Parser::Parser(SymbolTable* &vars) {
 }
 
 Parser::~Parser() {
+    for(map<string,Expression* >::iterator it = commands->begin();it!=commands->end();++it)
+        delete it->second;
     delete commands;
     delete( bindingMap);
 }
