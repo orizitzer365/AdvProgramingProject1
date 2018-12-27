@@ -17,12 +17,15 @@ public:
     }
     CommandExpression(Command *command) : Expression(nullptr, nullptr) ,command(command) {}
 
-    double calculate(vector<vector<string>> strings) {
+    double calculate(vector<vector<string>>& strings)  {
         return command->doCommand(strings);
     }
 
     double func(double x, double y) override {
         return 0;
+    }
+    ~CommandExpression(){
+        delete command;
     }
 };
 #endif //PROJECT1_COMMANDEXPERSSION_H
