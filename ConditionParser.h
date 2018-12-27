@@ -24,5 +24,7 @@ public:
 
     void getCommandsByMap(vector<vector<string > > lines);
     vector<Expression *> &getCommands();
+
+    virtual ~ConditionParser();
 };
 #endif //PROJECT1_CONDITIONPARSER_H

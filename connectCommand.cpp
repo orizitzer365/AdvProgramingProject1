@@ -1,8 +1,9 @@
 //
 // Created by ori on 12/26/18.
 //
+#include <iostream>
 #include "connectCommand.h"
-connectCommand::connectCommand(SymbolTable *v, map <string, string> *bi, bool *run) :stillRun(run),vars(v) {
+connectCommand::connectCommand(SymbolTable *v, map <string, string> *bi) :vars(v) {
     vars = v;
     bindingMap=bi;
     calc=new Calculator(vars);
@@ -71,4 +72,5 @@ void connectCommand::serverConnct(int port, string ip) {
 
 connectCommand::~connectCommand() {
     close(socket_id);
+    delete calc;
 }

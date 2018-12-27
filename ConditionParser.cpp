@@ -40,3 +40,7 @@ void ConditionParser::getCommandsByMap(vector <vector<string>> lines) {
 vector<Expression *> &ConditionParser::getCommands() {
     return commands;
 }
+
+ConditionParser::~ConditionParser() {
+
+}

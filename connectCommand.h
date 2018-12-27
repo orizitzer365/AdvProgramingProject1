@@ -26,9 +26,8 @@ private:
     map<string,string >* bindingMap;
     Calculator* calc;
     int socket_id;
-    bool * stillRun;
 public:
-    connectCommand(SymbolTable* v, map<string, string>* bi,bool * run);
+    connectCommand(SymbolTable* v, map<string, string>* bi);
 
     int doCommand(vector<vector<string>> strings) override;
 
