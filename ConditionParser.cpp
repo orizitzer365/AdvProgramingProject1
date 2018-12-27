@@ -42,5 +42,5 @@ vector<Expression *> &ConditionParser::getCommands() {
 }
 
 ConditionParser::~ConditionParser() {
-
+    delete calc;
 }
