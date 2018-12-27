@@ -5,6 +5,7 @@
 #ifndef PROJECT1_DEFINEVARCOMMAND_H
 #define PROJECT1_DEFINEVARCOMMAND_H
 #include <map>
+#include <mutex>
 #include "Expression.h"
 #include "Command.h"
 #include "PlacementCommand.h"
