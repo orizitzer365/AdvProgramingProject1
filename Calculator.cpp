@@ -1,22 +1,10 @@
 #include "Calculator.h"
 
-#define WHAT "What????"
-#define INVALID "Invalid expression"
-#define INVALID_EQUAL "Invalid token '=' "
-
-/*
- *
- * all the functions data is in the header file.
- *
- */
-
 double Calculator::calculate(string input) {
     Expression* expression;
-    //creates the expression:
     queue<pair<DetailType,string>> inputQueue = this->expressionLexerAndParser(input);
     stack<pair<DetailType,string>> outputStack = this->prefix(inputQueue);
     expression = this->getExpression(outputStack);
-    //returns the number:
     double value = expression->calculate();
     delete expression;
     return value;
@@ -25,7 +13,6 @@ double Calculator::calculate(string input) {
 queue<pair<DetailType, string>> Calculator::expressionLexerAndParser(string &input) {
     queue<pair<DetailType, string>> output;
     try{
-        // +something === something
         if((input.at(0) == '+' )){
             string newInput;
             bool first = true;
@@ -39,20 +26,17 @@ queue<pair<DetailType, string>> Calculator::expressionLexerAndParser(string &inp
             output.push(this->addParenthesis(newInput));
             return output;
         }
-        // -something = -(something)
         if((input.at(0) == '-' )){
             string newInput = "0" + input;
             output.push(this->addParenthesis(newInput));
             return output;
         }
         int len = input.length();
-        //splits the string:
         for(int i=0;i<len;i++){
             char c = input.at(i);
             //number:
             if(c >= '0' && c<='9'){
                 string temp;
-                //puts the number in temp:
                 while(((c >= '0')&&(c <= '9'))||(c == '.')){
                     temp += c;
                     if(i == len - 1){
@@ -62,14 +46,12 @@ queue<pair<DetailType, string>> Calculator::expressionLexerAndParser(string &inp
                     c = input.at(++i);
                 }
                 --i;
-                //adds the number to the output:
                 output.push(pair<DetailType,string>(NUMBER,temp));
                 continue;
             }
             //variable:
             if((c>='a' && c<='z')||(c>='A' && c<='Z')|| c == '_'){
                 string temp;
-                //puts the variable in temp:
                 while(((c >= '0')&&(c <= '9'))||(c>='a' && c<='z')||(c>='A' && c<='Z')|| c == '_'){
                     temp += c;
                     if(i == len - 1){
@@ -79,11 +61,10 @@ queue<pair<DetailType, string>> Calculator::expressionLexerAndParser(string &inp
                     c = input.at(++i);
                 }
                 --i;
-                //adds the variable to the output:
                 output.push(pair<DetailType,string>(VARIABLE,temp));
                 continue;
             }
-            //double action (operator) with '=':
+            //double action with =:
             if((c=='=')||(c=='<')||(c=='>')){
                 if((i < (len -1)) && input.at(i+1) == '='){
                     string temp = string() + c + input.at(i+1);
@@ -92,10 +73,9 @@ queue<pair<DetailType, string>> Calculator::expressionLexerAndParser(string &inp
                     continue;
                 }
                 if(c == '='){
-                    throw INVALID_EQUAL;
+                    throw "Invalid token '=' ";
                 }
                 string temp = string()+c;
-                //adds the action to the output:
                 output.push(pair<DetailType,string>(ACTION,temp));
                 continue;
             }
@@ -104,7 +84,6 @@ queue<pair<DetailType, string>> Calculator::expressionLexerAndParser(string &inp
                 string temp;
                 int count = 1;
                 ++i;
-                //puts the expression in the () in temp.
                 while(i<len){
                     c = input.at(i);
                     if(c == '('){
@@ -120,9 +99,8 @@ queue<pair<DetailType, string>> Calculator::expressionLexerAndParser(string &inp
                     ++i;
                 }
                 if(i == len){
-                    throw INVALID;
+                    throw "Invalid expression";
                 }
-                //adds the expression to the output:
                 output.push(this->addParenthesis(temp));
                 continue;
             }
@@ -138,7 +116,6 @@ queue<pair<DetailType, string>> Calculator::expressionLexerAndParser(string &inp
                     continue;
                 }
             }
-            // '!=':
             if((c == '!') &&(input.at(++i) == '=')){
                 output.push(pair<DetailType,string>(ACTION,"!="));
                 continue;
@@ -147,15 +124,13 @@ queue<pair<DetailType, string>> Calculator::expressionLexerAndParser(string &inp
     } catch (char const * s){
         throw s;
     } catch (...) {
-        throw INVALID;
+        throw "Invalid expression";
     }
     return output;
 }
 
 pair<DetailType, string> Calculator::addParenthesis(string input) {
-    //calculates:
     double d = this->calculate(input);
-    //saves the result:
     this->parenthesis.insert(pair<unsigned int,double >(this->lastParenthesis,d));
     return pair<DetailType, string>(PARENTHESIS,to_string(this->lastParenthesis++));
 }
@@ -164,7 +139,6 @@ Calculator::Calculator(SymbolTable *s) {
     this->variables = s;
     this->lastParenthesis = 0;
 
-    //precedence of opertor:
     this->precedence.insert(pair<string,int>("*",5));
     this->precedence.insert(pair<string,int>("/",5));
     this->precedence.insert(pair<string,int>("+",4));
@@ -180,7 +154,6 @@ Calculator::Calculator(SymbolTable *s) {
 }
 
 Expression *Calculator::getExpression(stack<pair<DetailType, string>> &stk) {
-    //returns the front's expression:
     pair<DetailType, string> p = stk.top();
     stk.pop();
     switch (p.first){
@@ -198,16 +171,13 @@ Expression *Calculator::getExpression(stack<pair<DetailType, string>> &stk) {
         case PARENTHESIS:{
             return new Var(this->parenthesis.at(stoul(p.second)));
         }
-        //won't happened:
         default:{
-            throw WHAT;
+            throw "What????";
         }
     }
 }
 
 stack<pair<DetailType, string>> Calculator::prefix(queue<pair<DetailType, string>> &input) {
-    //the algorithm:
-    //the queue is stack -> prefix, not postfix
     stack<pair<DetailType, string>> que;
     stack<pair<DetailType, string>> stk;
     while(!input.empty()){

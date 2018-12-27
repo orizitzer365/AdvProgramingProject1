@@ -1,7 +1,5 @@
 #include "ExpressionFactory.h"
 
-#define INVALID_OPTION " is invalid action"
-
 ExpressionFromNameFactory::ExpressionFromNameFactory() {
     this->factors.insert(pair<string,ExpressionFactory*>("+",new PlusFactory()));
     this->factors.insert(pair<string,ExpressionFactory*>("-",new MinusFactory()));
@@ -21,7 +19,7 @@ Expression *ExpressionFromNameFactory::create(string name, Expression *e1, Expre
     try{
         return this->factors.at(name)->create(e1,e2);
     } catch(...){
-        throw (name + INVALID_OPTION);
+        throw (name + " is invalid action");
     }
 }
 

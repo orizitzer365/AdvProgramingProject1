@@ -49,10 +49,5 @@ public:
     int size(){
         return vars.size();
     };
-    ~SymbolTable(){
-        for(auto p : this->vars){
-            delete p.second;
-        }
-    }
 };
 #endif //PROJECT1_SYMBOLTABLE_H

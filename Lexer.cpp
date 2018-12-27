@@ -1,32 +1,20 @@
-//
-// Created by nadav on 12/24/18.
-//
-
 #include "Lexer.h"
 #include <fstream>
 #include <sstream>
 #include <queue>
 
-#define END_OF_LINE "#@$%#@EndOfLine"
-#define SET_OPERATORS {"openDataServer","connect","while","print","placement","if","sleep"}
-
 vector<vector<string>> Lexer::lexer(string fileName) {
     ifstream in(fileName);
-    //no commands:
     if(!in.is_open()){
         return vector<vector<string>>();
     }
-    //names of the commands:
     set<string> names = this->makeSet();
     string line;
     string tmp;
     string word;
     string last_word;
-    //vector of lines:
     vector<vector<string>> output;
-    //reads from the file line by line:
     while (!getline(in,line).eof()){
-        //vector of the line:
         vector<string> vecLine;
         //empty line:
         if(line.empty()){
@@ -34,10 +22,10 @@ vector<vector<string>> Lexer::lexer(string fileName) {
             continue;
         }
         //splits the line into queue:
-        istringstream ss(line + " "+END_OF_LINE);
+        istringstream ss(line + " #@$%#@");
         queue<string> que;
         ss >> tmp;
-        while(tmp.compare(END_OF_LINE) != 0){
+        while(tmp.compare("#@$%#@") != 0){
             que.push(tmp);
             ss >> tmp;
         }
@@ -112,7 +100,7 @@ vector<vector<string>> Lexer::lexer(string fileName) {
 }
 
 set<string> Lexer::makeSet() {
-    return SET_OPERATORS;
+    return {"openDataServer","connect","while","print","placement","if","sleep"};
 }
 
 bool Lexer::add(string &last, string &word) {
@@ -137,7 +125,7 @@ bool Lexer::add(string &last, string &word) {
     //second check: operator at end of last:
     char c = last.at(last.size()-1);
     if((c =='+')||(c == '-')||(c == '*')||(c == '/')||
-        (c == '<')||(c == '>')||(c == '=')||(c == '&')||(c == '|')){
+       (c == '<')||(c == '>')||(c == '=')||(c == '&')||(c == '|')){
         last += word;
         return true;
     }
@@ -152,7 +140,7 @@ bool Lexer::add(string &last, string &word) {
     //removing ',':
     if(word.at(0) == ','){
         string newWord;
-        for (unsigned int i =1;i<word.size();i++){
+        for (int i =1;i<word.size();i++){
             newWord += word.at(i);
         }
         word = newWord;
