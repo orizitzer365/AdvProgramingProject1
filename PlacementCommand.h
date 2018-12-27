@@ -20,6 +20,8 @@ public:
     int doCommand(vector<vector<string>> strings) override {
         vector<string> param = strings.at(0);
         string varName = param.at(0);
+        if(param.at(1)=="}")
+            return 1;
         if(param.at(1)!="=")
             throw "ERROR";
         //change the value
@@ -27,7 +29,7 @@ public:
         return 1;
     }
     ~PlacementCommand(){
-
+        delete calc;
     }
 };
 #endif //PROJECT1_PLACEMENTCOMMAND_H
