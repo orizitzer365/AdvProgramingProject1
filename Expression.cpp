@@ -1,4 +1,16 @@
+//
+// Created by nadav on 12/23/18.
+//
+
 #include "Expression.h"
+
+#define INVALID_EXP "Invalid expression!"
+
+/*
+ *
+ * data about the functions at the header file.
+ *
+ */
 
 Expression::Expression(Expression *e1, Expression *e2) {
     this->e1 = e1;
@@ -7,7 +19,7 @@ Expression::Expression(Expression *e1, Expression *e2) {
 
 double Expression::calculate() {
     if((this->e1 == nullptr)||(this->e2 == nullptr) ){
-        throw "Invalid expression!";
+        throw INVALID_EXP;
     }
     return this->func(this->e1->calculate(),this->e2->calculate());
 }
@@ -46,6 +58,32 @@ double Mult::calculate() {
 double Mult::func(double x, double y) {
     return x * y;
 }
+
+Mult::~Mult() {}
+
+Plus::~Plus() {}
+
+Minus::~Minus() {}
+
+Div::~Div() {}
+
+IsEqual::~IsEqual() {}
+
+IsNotEqual::~IsNotEqual() {}
+
+IsSmaller::~IsSmaller() {}
+
+IsBigger::~IsBigger() {}
+
+IsBiggerOrEqual::~IsBiggerOrEqual() {}
+
+IsSmallerOrEqual::~IsSmallerOrEqual() {}
+
+Or::~Or() {}
+
+And::~And() {}
+
+Var::~Var() {}
 
 Div::Div(Expression *e1, Expression *e2) : Expression(e1, e2) {}
 
@@ -165,6 +203,6 @@ void Var::setValue(double value) {
     this->val = value;
 }
 
-double Expression::calculate(vector<vector<string>> notUsed) {
+double Expression::calculate(vector<vector<string>>& notUsed) {
     return this->calculate();
 }
