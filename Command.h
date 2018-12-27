@@ -15,5 +15,6 @@ using namespace std;
 class Command{
 public:
     virtual int doCommand(vector<vector<string>> param) = 0;
+    virtual ~Command();
 };
 #endif //PROJECT1_COMMAND_H
