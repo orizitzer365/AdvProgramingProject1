@@ -4,6 +4,7 @@
 
 #ifndef PROJECT1_DEFINEVARCOMMAND_H
 #define PROJECT1_DEFINEVARCOMMAND_H
+#include <mutex>
 #include <map>
 #include "Expression.h"
 #include "Command.h"
